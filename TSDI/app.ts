@@ -23,6 +23,7 @@
 
 window.onload = () => {
     var el = document.getElementById('content');
+    if (!el) return;
     var greeter = new Greeter(el);
     greeter.start();
 };

@@ -1,0 +1,17 @@
+﻿{
+    "compileOnSave": true,
+    "exclude": [ "node_modules" ],
+
+    "compilerOptions": {
+        //"module": "none",
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "noEmitOnError": true,
+        "target": "es5",
+        "lib": [ "es6", "dom" ],
+        "experimentalDecorators": true
+    }
+}

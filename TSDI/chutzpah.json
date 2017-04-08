@@ -1,0 +1,17 @@
+﻿{
+    "RootReferencePathMode": "SettingsFileDirectory",
+    "Compile": {
+        "Mode": "External",
+        "UseSourceMaps": true,
+        "Extensions": [ ".ts" ],
+        "ExtensionsWithNoOutput": [ ".d.ts" ]
+    },
+    "Tests": [
+        {
+            "Path": ".",
+            "Includes": [ "*Test.ts", "*Tests.ts" ],
+            "Excludes": [ "*.d.ts" ],
+            "ExpandReferenceComments": true
+        }
+    ]
+}

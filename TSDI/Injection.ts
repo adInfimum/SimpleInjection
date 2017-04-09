@@ -3,7 +3,7 @@
         new(...deps: any[]): T;
     }
 
-    type DepSpec<T> = IConstructor<T> | string;
+    export type DepSpec<T> = IConstructor<T> | string;
 
     export enum Lifetime { Transient = 1, Container }
 
@@ -11,15 +11,24 @@
         private registered: RegisteredType[] = [];
 
         public register<T>(depType: T, lifetime: Lifetime, dependencies?: DepSpec<any>[]) {
+            this.notRegistered(depType.toString());
             this.registered.push(new RegisteredType(depType.toString(), depType, lifetime, dependencies || []));
         }
 
         public registerInterface<T, IT>(interfaceType: DepSpec<IT>, depType: T, lifetime: Lifetime, dependencies?: DepSpec<any>[]) {
+            this.notRegistered(interfaceType.toString());
             this.registered.push(new RegisteredType(interfaceType.toString(), depType, lifetime, dependencies || []));
         }
 
         public isRegistered(depType: DepSpec<any>) {
             return !!this.findRegistration(depType.toString());
+        }
+
+        private notRegistered(token: string) {
+            if (this.isRegistered(token)) {
+                throw Error(`Type for ${token} was already registered with
+                    ${this.findRegistration(token.toString())!.depType.toString()}`);
+            }
         }
 
         public resolve<T>(depToken: DepSpec<T>): T {

@@ -2,6 +2,10 @@
     export interface IConstructor<T> {
         new(...deps: any[]): T;
     }
+    export interface IFactory<T> {
+        create(...additionalParameters: any[]): T;
+    }
+
 
     export type DepSpec<T> = IConstructor<T> | string;
 
@@ -31,13 +35,24 @@
             }
         }
 
-        public resolve<T>(depToken: DepSpec<T>): T {
+        public resolve<T>(depToken: DepSpec<T>, ...additionalParameters: any[]): T {
             depToken = depToken.toString();
             const registeredType = this.findRegistration(depToken);
             if (!registeredType) {
                 throw new Error("Nothing registered satisfying " + depToken);                
             }
-            return registeredType.create<T>(this.resolveDependencies(registeredType));
+            return registeredType.create<T>(this.resolveDependencies(registeredType).concat(additionalParameters));
+        }
+        
+        public factory<FT extends IFactory<any>>(depToken: DepSpec<any>): FT;
+        public factory<T>(depToken: DepSpec<T>): IFactory<T>;
+
+        public factory<FT extends IFactory<any>>(depToken: DepSpec<any>): FT {
+            return <FT>{
+                create: (...additionalParameters: any[]) => {
+                    return this.resolve(depToken, additionalParameters);
+                }
+            };
         }
 
         public child() {

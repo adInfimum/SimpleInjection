@@ -24,6 +24,20 @@ namespace InjectionTest {
         }
     }
 
+    class ParamTest implements ITest {
+        public test: string;
+
+        constructor(private t: Test, valuePrefix: string) {
+            this.test = valuePrefix + " is " + this.t.test;
+        }
+    }
+
+    interface ParamFactory extends DI.IFactory<ParamTest> {
+        create(prefix: string): ParamTest;
+    }
+
+
+
     describe("Container", () => {
         it("should register custom transient classes", () => {
             const c = new DI.Container();
@@ -93,5 +107,23 @@ namespace InjectionTest {
             expect(t2.test).toBe("OK");
             expect(t === t2).toBeTruthy();
         });
+
+        it("should be able to create factories with additional parameters for registered classes", () => {
+            const c = new DI.Container();
+            c.registerInterface(ITest, Test, DI.Lifetime.Transient);
+            const f = c.factory<ITest>(ITest);
+            const t = f.create("ignore", "additional", "params", "if", "factory", "is", "not", "strongly", "typed");
+            expect(t.test).toBe("OK");
+        });
+
+        it("should be able to create factories with additional parameters for registered classes", () => {
+            const c = new DI.Container();
+            c.registerInterface(ITest, Test, DI.Lifetime.Transient);
+            c.register(ParamTest, DI.Lifetime.Transient, [ITest]);
+            const f = c.factory<ParamFactory>(ParamTest);
+            const t = f.create("Everything");
+            expect(t.test).toBe("Everything is OK");
+        });
+
     });
 }

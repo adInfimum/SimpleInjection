@@ -1,5 +1,7 @@
 # SimpleInjection
-A very simple dependency injection library in TypeScript leveraging decorators and with support for using from pure Javascript. Supports:
+A very simple dependency injection library in TypeScript leveraging decorators and with support for using from pure Javascript.
+Features:
+* No external dependencies
 * TypeScript decorators
 * Instance lifetime: Transient and Container
 * Strongly typed factories for specifing additional constructor parameters

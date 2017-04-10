@@ -49,36 +49,36 @@ namespace DecoratorTest {
         }
     }
 
-    describe("Decorated container", () => {
+    describe("Decorator container", () => {
         it("should register decorated transient classes", () => {
-            const c = DI.decoratorContainer();
+            const c = DI.decoratorContainer.child();
             expect(c.isRegistered(Test)).toBeTruthy();
         });
 
         it("should register decorated transient classes without decorator factory", () => {
-            const c = DI.decoratorContainer();
+            const c = DI.decoratorContainer.child();
             expect(c.isRegistered(Test2)).toBeTruthy();
         });
 
         it("should not register not decorated classes", () => {
-            const c = DI.decoratorContainer();
+            const c = DI.decoratorContainer.child();
             expect(c.isRegistered(TestNotRegistered)).toBeFalsy();
         });
 
         it("should be able to resolve class dependencies", () => {
-            const c = DI.decoratorContainer();
+            const c = DI.decoratorContainer.child();
             const t = c.resolve(TestInject);
             expect(t.test).toBe("Still OK");
         });
 
         it("should be able to resolve class interface dependencies", () => {
-            const c = DI.decoratorContainer();
+            const c = DI.decoratorContainer.child();
             const t = c.resolve(TestInject2);
             expect(t.test).toBe("Still2 OK2");
         });
 
         it("should be able to resolve interface dependencies", () => {
-            const c = DI.decoratorContainer();
+            const c = DI.decoratorContainer.child();
             const t = c.resolve<ITest>(ITest2);
             expect(t.test).toBe("Still2 OK2");
         });

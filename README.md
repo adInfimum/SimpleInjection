@@ -14,7 +14,7 @@ Decorate classes with `@injectable` or `@injectableAs` to specify an interface/s
 You can specify instance lifetime in the decorator.
 
 Decorate constructor parameters with `@inject` and specify class/interface/symbol to inject.
-This is a bit of redundancy that can be eliminate using metadata information, but I didn't want to require metadata for now.
+This is a bit of redundancy that can be eliminated using metadata information, but I didn't want to require metadata for now.
 
     @injectable
     class Test {
